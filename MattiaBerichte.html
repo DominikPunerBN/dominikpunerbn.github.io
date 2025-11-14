@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automatisierter GA4 Events Workflow</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; color: #222; line-height: 1.6; background: #f7f7f7; }
+    header { background: #1a73e8; color: #fff; padding: 20px; text-align: center; }
+    main { max-width: 900px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    h2 { margin-top: 32px; }
+    code { background: #eee; padding: 2px 4px; border-radius: 4px; }
+    .step { margin-bottom: 24px; }
+    footer { text-align: center; padding: 20px; font-size: 14px; color: #555; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Automatisierter GA4 Reporting Workflow</h1>
+    <p>n8n-basierter Prozess zur Erhebung und Speicherung von Google Analytics 4 Eventdaten</p>
+  </header>
+
+  <main>
+    <h2>Übersicht</h2>
+    <p>
+      Dieser Workflow sammelt monatlich Eventdaten aus der Google Analytics Data API (v1beta) und schreibt sie strukturiert in Google Sheets. Damit wird die Datenkonsistenz gegenüber Google Ads sichergestellt und dient gleichzeitig als Grundlage für Reporting und Audits.
+    </p>
+
+    <h2>Ablauf im Detail</h2>
+
+    <div class="step">
+      <h3>1. Automatische Monatsermittlung</h3>
+      <p>
+        Ein JavaScript-Node berechnet den vollständig abgeschlossenen Vormonat und erstellt ein Datenobjekt mit <code>startDate</code> und <code>endDate</code>.
+      </p>
+    </div>
+
+    <div class="step">
+      <h3>2. Abruf der GA4 Events</h3>
+      <p>Über die Google Analytics Data API werden zwei Reports gezogen:</p>
+      <ul>
+        <li>Events mit dem Namen <code>content hotel list</code></li>
+        <li>Events mit dem Namen <code>hotel website</code></li>
+      </ul>
+      <p>
+        Beide Abfragen nutzen OAuth2 und liefern Dimensionswerte wie <code>eventName</code> und <code>customEvent:Label</code> sowie die Metrik <code>eventCount</code>.
+      </p>
+    </div>
+
+    <div class="step">
+      <h3>3. Verarbeitung der Eventdaten</h3>
+      <p>
+        Die Ergebnisse des ersten Reports werden einzeln aufgeteilt, gefiltert und anschließend an ein Google Sheet übergeben.
+      </p>
+      <p>
+        Der zweite Report wird über benutzerdefinierten Code weiterverarbeitet: Aus dem Event-Label wird die Domain extrahiert, anschließend werden Eventzahlen domainbasiert aggregiert.
+      </p>
+    </div>
+
+    <div class="step">
+      <h3>4. Schreiben in Google Sheets</h3>
+      <p>
+        Für beide Datensätze werden die Ergebnisse in getrennte Tabellen geschrieben. Ist ein Eintrag mit identischem Label bereits vorhanden, wird der Wert aktualisiert statt dupliziert.
+      </p>
+    </div>
+
+    <h2>Zweck</h2>
+    <p>
+      Diese automatisierte Struktur dient dazu, die Nachvollziehbarkeit der GA4 Eventerfassung sicherzustellen und Anforderungen der Google Ads Plattform zu erfüllen. Der Workflow erlaubt vollständige Transparenz über Zählungen, Datenursprünge und monatliche Verarbeitungsschritte.
+    </p>
+    <section>
+    <h2>Datenschutzerklärung</h2>
+    <p>Diese Seite dient ausschließlich der technischen Dokumentation eines internen n8n-Workflows. Es werden keine personenbezogenen Daten erhoben, gespeichert oder verarbeitet. Es erfolgt kein Tracking, keine Analyse und keine Übermittlung personenbezogener Informationen an Dritte. Die dargestellten Informationen basieren ausschließlich auf einer internen Beschreibung der Datenverarbeitung mittels Google Analytics Data API und Google Sheets, wobei alle Datenquellen anonymisiert und nicht auf konkrete Nutzer rückführbar sind.</p>
+    <p>Verantwortlich für die Inhalte dieser Seite ist die interne technische Abteilung, welche die Automatisierungsprozesse betreut. Da die Seite keine Datenerfassung durchführt, besteht keine Notwendigkeit zur Abgabe weiterer datenschutzrechtlicher Hinweise.</p>
+  </section>
+
+  <section>
+    <h2>Nutzungsbedingungen</h2>
+    <p>Diese Webseite dient ausschließlich internen Zwecken und der technischen Darstellung des beschriebenen Workflows. Eine Nutzung durch externe Personen ist nicht vorgesehen. Die Inhalte dürfen nicht weiterverwendet, kopiert oder verbreitet werden.</p>
+    <p>Der dargestellte Workflow dient nur zur Überprüfung der Systemfunktionalität und bildet interne Prozesse ab. Jegliche Nutzung der Informationen außerhalb dieses Zwecks ist nicht erlaubt. Es werden keinerlei Garantien hinsichtlich Vollständigkeit, Richtigkeit oder Aktualität der bereitgestellten Informationen übernommen.</p>
+    <p>Mit dem Zugriff auf diese Seite bestätigst du, dass sie ausschließlich für interne Dokumentations- und Prüfzwecke verwendet wird.</p>
+  </section>
+
+</main>
+
+  <footer>
+    © Automatisierter GA4 Workflow
+  </footer>
+</body>
+</html>
